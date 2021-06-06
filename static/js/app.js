@@ -2,26 +2,30 @@ var tableData = data;
 
 // Display the entire dataset as default
 tableData.forEach(appendTable);
-
+var dateTime = d3.select("#datetime").property("value");
+console.log(dateTime);
 // Select the submit button
 var submit = d3.select("#filter-btn");
 
- submit.on("click", function() {
+submit.on("click", function () {
 
-// Remove existing table
-   d3.select("tbody").html("");
+    // Remove existing table
+    d3.select("tbody").html("");
 
- // Prevent the page from refreshing
-   d3.event.preventDefault();
+    // Prevent the page from refreshing
+    d3.event.preventDefault();
 
-// Get the value property of the input element
+    // Get the value property of the input element
     var dateTime = d3.select("#datetime").property("value");
-     console.log(dateTime);
+    console.log(dateTime);
+    var filteredData = tableData; 
+    if (datetime !=="") {
+        filteredData = filteredData.filter(record => record.datetime === dateTime);
+    }
+    
+    console.log(filteredData)
 
-    var filteredData = tableData.filter(record => record.datetime === dateTime);
-     console.log(filteredData)
-
-//  Display the filtered dataset
+    //  Display the filtered dataset
     filteredData.forEach(appendTable);
 
 });
@@ -32,7 +36,7 @@ function appendTable(report) {
 
     var row = tbody.append("tr");
 
-// for each key value pair in an object
+    // for each key value pair in an object
     Object.entries(report).forEach(([key, value]) => {
         var cell = row.append("td");
         cell.text(value);
